@@ -61,7 +61,7 @@ class PostOffice:
                 self.boxes[username][i]['read'] = True
                 yield self.boxes[username][i]['body']
 
-    def search_inbox(self, username, sentence) -> list[str]:
+    def search_inbox(self, username: str, sentence: str) -> list[str]:
         """
         Get username and and a string, return list of message that contains the string sent.
 
@@ -92,11 +92,9 @@ def show_example():
     print(post_office.boxes['Newman'])
 
     print("\nUnread messages:")
-
     print("**first call (2 first messages):")
     for msg in post_office.read_inbox('Newman', 2):
         print(msg)
-
     print("**second call (all (3) messages that 2 firsts already read):")
     for msg in post_office.read_inbox('Newman'):
         print(msg)
