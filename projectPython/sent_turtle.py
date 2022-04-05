@@ -73,10 +73,10 @@ class PostOffice:
         return list(filter(lambda msg: sentence in msg, list_messages))
 
 
-def show_example():
+def test_post_office():
     """Show example of using the PostOffice class."""
 
-    # Change from tuple to list because PostOffice expect a list and not a tuple
+    # Change from tuple to list because PostOffice expect a list and not a tuple.
     users = ['Newman', 'Mr. Peanutbutter']
     post_office = PostOffice(users)
     post_office.send_message(
@@ -86,7 +86,7 @@ def show_example():
         sender='Mr. Peanutbutter', recipient='Newman', message_body='How are you?',
     )
     message_id = post_office.send_message(
-        sender='Mr. Peanutbutter', recipient='Newman', message_body='Hope you feeling well?',
+        sender='Mr. Peanutbutter', recipient='Newman', message_body='Hope you are feeling OK',
     )
     print(f"Successfuly sent message number {message_id}.")
     print(post_office.boxes['Newman'])
@@ -104,5 +104,5 @@ def show_example():
 
 
 if __name__ == '__main__':
-    show_example()
+    test_post_office()
 
