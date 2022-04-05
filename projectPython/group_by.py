@@ -2,7 +2,7 @@
 
 def group_by(func, iterable):
     """
-    Gets a function and an iterable and returns a dictionary which the keys are what the function
+    Get a function and an iterable and return a dictionary which the keys are what the function
     returns on the item of the iterable and the value is a list of the items that the result
     on those items it is this key.
     Possible input:   len, ["hi", "bye", "yo", "try"]
