@@ -93,6 +93,7 @@ def show_example():
     print(post_office.read_inbox('Newman'))
     print(post_office.read_inbox('Newman', 3))
 
+    print("Search in inbox messages containing 'Hello':")
     print(post_office.search_inbox('Newman', 'Hello'))
 
 
