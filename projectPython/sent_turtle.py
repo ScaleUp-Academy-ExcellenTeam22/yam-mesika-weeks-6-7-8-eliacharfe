@@ -9,11 +9,11 @@ class PostOffice:
     :param list usernames: Users for which we should create PO Boxes.
     """
 
-    def __init__(self, usernames):
+    def __init__(self, usernames: list):
         self.message_id = 0
         self.boxes = {user: [] for user in usernames}
 
-    def send_message(self, sender, recipient, message_body, urgent=False):
+    def send_message(self, sender: str, recipient: str, message_body: str, urgent=False) -> int:
         """Send a message to a recipient.
 
         :param str sender: The message sender's username.
@@ -41,12 +41,13 @@ class PostOffice:
             user_box.append(message_details)
         return self.message_id
 
-    def read_inbox(self, username, number_of_messages=0):
+    def read_inbox(self, username: str, number_of_messages=0) -> list[str]:
         """
         Get username and an optional parameter N for the first N messages to read from the inbox
         of the user. If the messages were not read yet, return the messages (the first N messages)
         if the messages were read already return nothing. If the N is not sent or it is bigger than
         the actual number of messages, return all messages in the inbox.
+
         :param username: The name of the user.
         :param number_of_messages: The number of messages to read from the first message.
         :return: List of the body of the N first messages (or all the messages in the inbox).
@@ -60,6 +61,17 @@ class PostOffice:
                 list_messages.append(self.boxes[username][i]['body'])
                 self.boxes[username][i]['read'] = True
         return list_messages
+
+    def search_inbox(self, username, sentence) -> list[str]:
+        """
+        Get username and and a string, return list of message that contains the string sent.
+
+        :param username: The name of the user.
+        :param sentence: A substring to check if exist in each message
+        :return: A list of message that contains the string sent.
+        """
+        list_messages = [self.boxes[username][i]['body'] for i in range(0, self.boxes[username][-1]['id'])]
+        return list(filter(lambda msg: sentence in msg, list_messages))
 
 
 def show_example():
@@ -80,6 +92,8 @@ def show_example():
     print("Unread messages:")
     print(post_office.read_inbox('Newman'))
     print(post_office.read_inbox('Newman', 3))
+
+    print(post_office.search_inbox('Newman', 'Hello'))
 
 
 if __name__ == '__main__':
