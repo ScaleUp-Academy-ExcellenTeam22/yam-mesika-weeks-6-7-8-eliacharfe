@@ -23,7 +23,3 @@ def group_by(func, iterable):
 if __name__ == '__main__':
     print(group_by(len, ["hi", "bye", "yo", "try"]))
 
-
-
-
-# {func(item): item if func(item) in ... else [item] for item in iterable}
