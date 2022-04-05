@@ -1,3 +1,4 @@
+from typing import Iterator
 
 
 class PostOffice:
@@ -41,7 +42,7 @@ class PostOffice:
             user_box.append(message_details)
         return self.message_id
 
-    def read_inbox(self, username: str, number_of_messages=0) -> list[str]:
+    def read_inbox(self, username: str, number_of_messages=0) -> Iterator[str]:
         """
         Get username and an optional parameter N for the first N messages to read from the inbox
         of the user. If the messages were not read yet, return the messages (the first N messages)
@@ -50,17 +51,15 @@ class PostOffice:
 
         :param username: The name of the user.
         :param number_of_messages: The number of messages to read from the first message.
-        :return: List of the body of the N first messages (or all the messages in the inbox).
+        :return: The body of the N first messages that unread (or all the messages in the inbox).
         """
         max_messages = self.boxes[username][-1]['id']
         if not number_of_messages or number_of_messages > max_messages:
             number_of_messages = max_messages
-        list_messages = []
         for i in range(0, number_of_messages):
             if not self.boxes[username][i]['read']:
-                list_messages.append(self.boxes[username][i]['body'])
                 self.boxes[username][i]['read'] = True
-        return list_messages
+                yield self.boxes[username][i]['body']
 
     def search_inbox(self, username, sentence) -> list[str]:
         """
@@ -83,23 +82,29 @@ def show_example():
     post_office.send_message(
         sender='Mr. Peanutbutter', recipient='Newman', message_body='Hello, Newman.',
     )
-    message_id = post_office.send_message(
+    post_office.send_message(
         sender='Mr. Peanutbutter', recipient='Newman', message_body='How are you?',
+    )
+    message_id = post_office.send_message(
+        sender='Mr. Peanutbutter', recipient='Newman', message_body='Hope you feeling well?',
     )
     print(f"Successfuly sent message number {message_id}.")
     print(post_office.boxes['Newman'])
 
-    print("Unread messages:")
-    print(post_office.read_inbox('Newman'))
-    print(post_office.read_inbox('Newman', 3))
+    print("\nUnread messages:")
 
-    print("Search in inbox messages containing 'Hello':")
-    print(post_office.search_inbox('Newman', 'Hello'))
+    print("**first call (2 first messages):")
+    for msg in post_office.read_inbox('Newman', 2):
+        print(msg)
+
+    print("**second call (all (3) messages that 2 firsts already read):")
+    for msg in post_office.read_inbox('Newman'):
+        print(msg)
+
+    print("\nSearch in inbox messages containing 'you':")
+    print(post_office.search_inbox('Newman', 'you'))
 
 
 if __name__ == '__main__':
     show_example()
 
-
-
-# return [print(self.boxes[username][i]['body'] for i in range(0, number_of_messages)]
