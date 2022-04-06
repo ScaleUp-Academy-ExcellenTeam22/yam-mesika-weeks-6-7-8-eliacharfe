@@ -31,9 +31,6 @@ class PostOffice:
         user_box.insert(0, message_details) if urgent else user_box.append(message_details)
         return self.message_id
 
-    # def __str__(self):
-    #     return self.message_id
-
     def read_inbox(self, username: str, number_of_n_first_messages=0) -> Iterator[str]:
         """
         Get username and an optional parameter N for the first N messages to read from the inbox
@@ -73,7 +70,7 @@ class Message:
         self.urgent = urgent
         self.read = False
 
-    def __str__(self):
+    def __repr__(self):
         return f"id: '{self.id}', title: '{self.title}', body: '{self.body}', sender: '{self.sender}'," \
                f" read: {self.read}, urgent: {self.urgent}"
 
@@ -101,7 +98,7 @@ def test_post_office():
         sender='Mr. Peanutbutter', recipient='Newman', message_body='Hope you are feeling OK',
     )
 
-    print(f"Successfully sent message number {message_id}.")
+    print(f"Successfully sent message number {message_id}.\n")
     print(post_office.boxes['Newman'])
 
     print("\nUnread messages:")
