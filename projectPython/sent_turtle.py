@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Iterator, List
 
 
 class PostOffice:
@@ -61,7 +61,7 @@ class PostOffice:
                 self.boxes[username][i]['read'] = True
                 yield self.boxes[username][i]['body']
 
-    def search_inbox(self, username: str, sentence: str) -> list[str]:
+    def search_inbox(self, username: str, sentence: str) -> List[str]:
         """
         Get username and and a string, return list of message that contains the string sent.
 
