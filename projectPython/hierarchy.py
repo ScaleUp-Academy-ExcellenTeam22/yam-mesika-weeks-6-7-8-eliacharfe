@@ -1,8 +1,47 @@
+from typing import List, Text
+
+
+class FileSystem:
+    def __init__(self):
+        self.list_file = []
+        self.list_file.append(Directory('/'))
+
+    def listdir(self, path) -> List[Text]:
+        for my_dir in self.list_file:
+            if my_dir.name == path:
+                return [file.name for file in my_dir.list_files]
+        return []
+
+    def makedir(self, path):
+        for my_dir in self.list_file:
+            if my_dir.name == path:
+                return
+        self.list_file.append(Directory(path))
+
+    def create(self, path, file_name='Empty File') -> bool:
+        new_file = File(file_name)
+        for my_dir in self.list_file:
+            if my_dir.name == path and not my_dir.exist(file_name):
+                my_dir.add_file(new_file)
+                return True
+        return False
 
 
 class File:
-    def __init__(self, name):
+    def __init__(self, name='Empty File'):
+        self.closed = False
         self.name = name
+
+    def __enter__(self):
+        """For context manager."""
+        return self
+
+    def __exit__(self,) -> None:
+        """Close the file."""
+        self.close()
+
+    def close(self) -> None:
+        self.closed = True
 
 
 class SingleFile(File):
@@ -49,8 +88,14 @@ class Directory(File):
     def add_file(self, file):
         self.list_files.append(file)
 
+    def exist(self, filename):
+        for file in self.list_files:
+            if file.name == filename:
+                return True
+        return False
+
     def __repr__(self):
-        return f"directory: {[file for file in self.list_files]}"
+        return f"directory: /{self.name}: {[file for file in self.list_files]}"
 
 
 class User:
@@ -83,4 +128,18 @@ if __name__ == '__main__':
     directory.add_file(binary_file)
     directory.add_file(image_file)
     print(directory)
+
+    file_system = FileSystem()
+
+    file_system.makedir('pathDir')
+
+    file_system.create('pathDir')
+    file_system.create('pathDir', 'text.txt')
+
+    for name_file in file_system.listdir('pathDir'):
+        print(name_file)
+
+
+
+
 
