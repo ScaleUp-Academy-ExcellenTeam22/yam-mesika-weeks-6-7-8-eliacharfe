@@ -13,10 +13,7 @@ def group_by(func, iterable):
     """
     dictionary_group_by_func = {}
     for item in iterable:
-        if func(item) in dictionary_group_by_func:
-            dictionary_group_by_func[func(item)].append(item)
-        else:
-            dictionary_group_by_func[func(item)] = [item]
+        dictionary_group_by_func.setdefault(func(item), []).append(item)
     return dictionary_group_by_func
 
 
