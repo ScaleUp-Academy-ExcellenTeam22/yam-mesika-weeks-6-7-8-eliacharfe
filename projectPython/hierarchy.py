@@ -62,8 +62,8 @@ class TextFile(SingleFile):
     def __init__(self, weight, content, owner, name='Empty File'):
         super().__init__(weight, content, owner, name + '.txt')
 
-    def count(self, string: str):
-        pass
+    def count(self, string: str) -> int:
+        return self.content.count(string)
 
 
 class BinaryFile(SingleFile):
@@ -114,8 +114,11 @@ if __name__ == '__main__':
     print(user_normal)
     print(user_manager)
 
-    text_file = TextFile(1, "Some text content", user_normal, 'myTextFile')
+    text_file = TextFile(1, "Some text content, with text in it", user_normal, 'myTextFile')
     print(text_file)
+
+    print("read text file: " + text_file.read(user_normal))
+    print("text file count ('text'): " + str(text_file.count('text')))
 
     binary_file = BinaryFile(2, b"binary file", user_manager, 'myBinFile')
     print(binary_file)
@@ -127,6 +130,11 @@ if __name__ == '__main__':
     directory.add_file(text_file)
     directory.add_file(binary_file)
     directory.add_file(image_file)
+
+    inner_dir = Directory('Dirname')
+    inner_dir.add_file(TextFile(3, "text file text", user_manager, 'Txt file of manager'))
+    directory.add_file(inner_dir)
+
     print(directory)
 
     file_system = FileSystem()
