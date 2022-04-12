@@ -59,7 +59,7 @@ class PostOffice:
         for i in range(0, number_of_messages):
             if not self.boxes[username][i]['read']:
                 self.boxes[username][i]['read'] = True
-                yield self.boxes[username][i]['body']
+                yield self.boxes[username][i]
 
     def search_inbox(self, username: str, sentence: str) -> List[str]:
         """
