@@ -8,7 +8,7 @@ def get_content_of_line(filepath: str, line_number: int) -> str:
     :return: The line.
     """
     if line_number < 0:
-        raise ValueError
+        raise ValueError("Value error: The number of line should be positive")
     with open(filepath, "r+", encoding="utf-8") as file:
         lines = file.readlines()
         return lines[line_number]
@@ -29,6 +29,6 @@ if __name__ == '__main__':
     except IndexError:
         print("IndexError: Line number is out of range")
     except ValueError as e:
-        print("Value error: The number of line should be positive" + e)
+        print(str(e))
 
 
