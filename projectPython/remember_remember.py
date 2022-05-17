@@ -1,7 +1,7 @@
 from PIL import Image
 
 
-def decoding_message_in_image(image_path):
+def decoding_message_in_image(image_path: str) -> str:
     """
     The function decodes a hidden message hidden in in each column of the image that the line number
     is corresponds to the numeric value of the character pixels if we take from left to right order.
