@@ -1,6 +1,8 @@
+from collections import Callable, Iterable
+from typing import Dict
 
 
-def group_by(func, iterable):
+def group_by(func: Callable, iterable: Iterable) -> Dict:
     """
     Get a function and an iterable and return a dictionary which the keys are what the function
     returns on the item of the iterable and the value is a list of the items that the result
@@ -9,7 +11,7 @@ def group_by(func, iterable):
     Output:           {2: ["hi", "yo"], 3: ["bye", "try"]}
     :param func: A function.
     :param iterable: An iterable.
-    :return: Dictionary of key and value like explained.
+    :return: Dictionary of key and value as explained.
     """
     dictionary_group_by_func = {}
     for item in iterable:
