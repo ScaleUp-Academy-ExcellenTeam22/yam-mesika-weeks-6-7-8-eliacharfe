@@ -2,29 +2,58 @@ from typing import List, Text
 
 
 class FileSystem:
+    """
+    A class that implement a files system.
+    """
     def __init__(self):
         self.list_file = []
         self.list_file.append(Directory('/'))
 
-    def listdir(self, path) -> List[Text]:
+    def listdir(self, path: str) -> List[Text]:
+        """
+        Get a path to a directory and return a list of all the files/directories in it.
+        :param path: A path to a directory.
+        :return: A list of all the files/directories
+        """
         for my_dir in self.list_file:
             if my_dir.name == path:
                 return [file.name for file in my_dir.list_files]
         return []
 
-    def makedir(self, path):
+    def makedir(self, path: str) -> None:
+        """
+        Create new directory at the path passed.
+        :param path: The path to where create the new directory.
+        """
         for my_dir in self.list_file:
             if my_dir.name == path:
                 return
         self.list_file.append(Directory(path))
 
-    def create(self, path, file_name='Empty File') -> bool:
+    def create(self, path: str, file_name='Empty File') -> bool:
+        """
+        Get a path to directory and a file to add, then add the the file if not exist already in the directory
+        and return if succeeded.
+        :param path: The path to the directory.
+        :param file_name: The file name.
+        :return: True if add, else False.
+        """
         new_file = File(file_name)
         for my_dir in self.list_file:
             if my_dir.name == path and not my_dir.exist(file_name):
                 my_dir.add_file(new_file)
                 return True
         return False
+
+
+class User:
+    def __init__(self, username: str, password: str, manager=False):
+        self.username = username
+        self.password = password
+        self.manager = manager
+
+    def __str__(self):
+        return f"(username: {self.username}, password: {self.password}, manager: {self.manager})"
 
 
 class File:
@@ -45,7 +74,7 @@ class File:
 
 
 class SingleFile(File):
-    def __init__(self, weight, content, owner, name):
+    def __init__(self, weight: float, content: str, owner: User[str, str, bool], name: str):
         super().__init__(name)
         self.weight = weight
         self.content = content
@@ -59,7 +88,7 @@ class SingleFile(File):
 
 
 class TextFile(SingleFile):
-    def __init__(self, weight, content, owner, name='Empty File'):
+    def __init__(self, weight: float, content: str, owner: User[str, str, bool], name='Empty File'):
         super().__init__(weight, content, owner, name + '.txt')
 
     def count(self, string: str) -> int:
@@ -67,12 +96,12 @@ class TextFile(SingleFile):
 
 
 class BinaryFile(SingleFile):
-    def __init__(self, weight, content, owner, name='Empty File'):
+    def __init__(self, weight: float, content: str, owner: User[str, str, bool], name='Empty File'):
         super().__init__(weight, content, owner, name)
 
 
 class Image(BinaryFile):
-    def __init__(self, weight, content, owner, extension='.jpg', name='Empty File'):
+    def __init__(self, weight: float, content: str, owner: User[str, str, bool], extension='.jpg', name='Empty File'):
         super().__init__(weight, content, owner, name + extension)
         self.extension = extension
 
@@ -96,16 +125,6 @@ class Directory(File):
 
     def __repr__(self):
         return f"directory: /{self.name}: {[file for file in self.list_files]}"
-
-
-class User:
-    def __init__(self, username, password, manager=False):
-        self.username = username
-        self.password = password
-        self.manager = manager
-
-    def __str__(self):
-        return f"(username: {self.username}, password: {self.password}, manager: {self.manager})"
 
 
 if __name__ == '__main__':
